@@ -5,6 +5,7 @@
  */
 package gui;
 
+import dpa.Dpa;
 import aes.Aes;
 
 /**
@@ -14,10 +15,25 @@ import aes.Aes;
 public class Gui extends javax.swing.JFrame {
 
     /**
+     * A reference to our Dpa object to perform our attack
+     */
+    Dpa dpa;
+    
+    /**
      * Creates new form Gui
      */
     public Gui() {
         initComponents();
+        
+        dpa = new Dpa(this);
+    }
+    
+    /**
+     * Update Status
+     */
+    public void UpdateProgress(int p)
+    {
+        jLabelStatus.setText("Loading... " + p + "%");
     }
 
     /**
@@ -414,10 +430,7 @@ public class Gui extends javax.swing.JFrame {
 
     private void jButtonLoadDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoadDataActionPerformed
         
-        byte b = (byte)0xFF;
-        
-        b++;
-        System.out.println("Hello World");
+        dpa.LoadData();
         
     }//GEN-LAST:event_jButtonLoadDataActionPerformed
 

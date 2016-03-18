@@ -8,12 +8,12 @@ public class DataPoint {
     /**
      * Plaintext input
      */
-    byte [] plainText;
+    byte [] plainText = new byte [16];
     
     /**
      * Ciphertext output
      */
-    byte [] cipherText;
+    byte [] cipherText = new byte [16];
     
     /**
      * Power usage at the 2664th data point

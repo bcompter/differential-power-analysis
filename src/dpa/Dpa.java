@@ -68,6 +68,9 @@ public class Dpa {
         // Calculate standard deviation
         stdDeviation = StandardDeviation(averagePower);
         
+        // Update Gui
+        gui.UpdateStats(averagePower, stdDeviation);
+        
         System.out.println("Complete...");
         
     }  // end PerformDPA

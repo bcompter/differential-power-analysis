@@ -149,7 +149,19 @@ public class Dpa {
                 
         System.out.println("Complete...");
         
+        // Signal gui to plot results
+        gui.PlotResults();
+        
     }  // end PerformDPA
+    
+    /**
+     * 
+     * @return 
+     */
+    public ArrayList GetDpaData()
+    {
+       return dpaValues; 
+    }
     
     /**
      * 

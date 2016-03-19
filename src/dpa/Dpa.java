@@ -8,7 +8,7 @@ import javax.swing.SwingUtilities;
  *
  * @author brian.compter
  */
-public class Dpa {
+public class Dpa implements Runnable {
     
     /**
      * A reference to the gui for display purposes
@@ -70,6 +70,14 @@ public class Dpa {
     }
     
     /**
+     * 
+     */
+    public void run()
+    {
+        PerformDPA();
+    }
+    
+    /**
      * Load data from files
      */
     public void LoadData()
@@ -89,15 +97,15 @@ public class Dpa {
     /**
      * Update data loading progress
      */
-    public void UpdateProgress(int p)
+    public void UpdateProgress(String s)
     {
-        gui.UpdateProgress(p);
+        gui.UpdateProgress(s);
     }
     
     /**
      * Perform our Differential Power Analysis
      */
-    public void PerformDPA()
+    private void PerformDPA()
     {
         // Calculate average power
         averagePower = Average();
@@ -114,8 +122,10 @@ public class Dpa {
         // Guess 256 different values for our key byte
         for (int key = 0; key < 256; key++)
         {
+            UpdateProgress("Calculating key " + Integer.toHexString(key));
+            
             // Iterate over all data points and compute the selection bit for each sample
-            int range = 100;
+            int range = dataPoints.size()-2;
             for (int d = 0; d < range; d++)
             {
                 int cipher = dataPoints.get(d).cipherText[cipherByteIndex];

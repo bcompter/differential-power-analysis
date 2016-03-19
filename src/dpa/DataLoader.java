@@ -60,7 +60,7 @@ public class DataLoader implements Runnable{
                 }
                 dataPoints.add(dp);
                 percentComplete += percentPerItem;
-                dpa.UpdateProgress((int)percentComplete);
+                dpa.UpdateProgress("Loading... " + (int)percentComplete + "%");
             }
             plainTextBr.close();
             
@@ -76,7 +76,7 @@ public class DataLoader implements Runnable{
                     dp.cipherText[i] = Integer.parseInt(split[i], 16);
                 }
                 percentComplete += percentPerItem;
-                dpa.UpdateProgress((int)percentComplete);
+                dpa.UpdateProgress("Loading... " + (int)percentComplete + "%");
             }
             cipherTextBr.close();
             
@@ -88,10 +88,10 @@ public class DataLoader implements Runnable{
                 DataPoint dp = dataPoints.get(count++);
                 dp.power = Float.parseFloat(tempStr);
                 percentComplete += percentPerItem;
-                dpa.UpdateProgress((int)percentComplete);
+                dpa.UpdateProgress("Loading... " + (int)percentComplete + "%");
             }
             powerTraceBr.close();
-            dpa.UpdateProgress(100);
+            dpa.UpdateProgress("Data Load Complete.");
         }
         catch(Exception e)
         {

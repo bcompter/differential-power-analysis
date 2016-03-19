@@ -60,9 +60,9 @@ public class Gui extends javax.swing.JFrame {
     /**
      * Update Status
      */
-    public void UpdateProgress(int p)
+    public void UpdateProgress(String s)
     {
-        jLabelStatus.setText("Loading... " + p + "%");
+        jLabelStatus.setText(s);
     }
     
     /**
@@ -130,6 +130,9 @@ public class Gui extends javax.swing.JFrame {
      */
     public void PlotResults()
     {
+        // Clear out any old charts
+        jPanelResults.removeAll();
+        
         // Create Dataset
         XYSeries data = new XYSeries("Data");
         ArrayList <Float> dpaData = dpa.GetDpaData();
@@ -777,7 +780,7 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonLoadDataActionPerformed
 
     private void jButtonDpaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDpaActionPerformed
-        dpa.PerformDPA();
+        SwingUtilities.invokeLater(dpa);
     }//GEN-LAST:event_jButtonDpaActionPerformed
 
     private void jToggleButtonK0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonK0ActionPerformed

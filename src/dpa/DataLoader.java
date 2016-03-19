@@ -56,7 +56,7 @@ public class DataLoader implements Runnable{
                 String[] split = tempStr.split(" ");
                 for (int i = 0; i < split.length; i++)
                 {
-                    dp.plainText[i] = (byte)Integer.parseInt(split[i], 16);
+                    dp.plainText[i] = Integer.parseInt(split[i], 16);
                 }
                 dataPoints.add(dp);
                 percentComplete += percentPerItem;
@@ -73,7 +73,7 @@ public class DataLoader implements Runnable{
                 String[] split = tempStr.split(" ");
                 for (int i = 0; i < split.length; i++)
                 {
-                    dp.cipherText[i] = (byte)Integer.parseInt(split[i], 16);
+                    dp.cipherText[i] = Integer.parseInt(split[i], 16);
                 }
                 percentComplete += percentPerItem;
                 dpa.UpdateProgress((int)percentComplete);
@@ -97,6 +97,10 @@ public class DataLoader implements Runnable{
         {
             System.err.println("Dpa::LoadData EXCEPTION -> " + e.getMessage());
         }
+        
+        // Signal load complete
+        dpa.LoadDataComplete();
+        
     }  // end run
     
 }  // end DataLoader

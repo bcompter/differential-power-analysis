@@ -31,6 +31,11 @@ public class Dpa {
     float stdDeviation;
     
     /**
+     * 
+     */
+    ArrayList <Float> dpaValues;
+    
+    /**
      * Inverse SBox operation
      */
     final int [] inverseSBox =
@@ -61,6 +66,7 @@ public class Dpa {
     {
         gui = g;
         dataPoints = new ArrayList();
+        dpaValues = new ArrayList();
     }
     
     /**
@@ -70,6 +76,14 @@ public class Dpa {
     {
         DataLoader dl = new DataLoader(this, dataPoints);
         SwingUtilities.invokeLater(dl);     
+    }
+    
+    /**
+     * Update the gui with our sample size
+     */
+    public void LoadDataComplete()
+    {
+       gui.UpdateNumSamples(dataPoints.size());
     }
     
     /**
@@ -94,10 +108,94 @@ public class Dpa {
         // Update Gui
         gui.UpdateStats(averagePower, stdDeviation);
         
+        // Which cipher byte are we working with? (determined by what key byte we are attacking...)
+        int cipherByteIndex = GetCipherByteIndex();
+        
+        // Guess 256 different values for our key byte
+        for (int key = 0; key < 256; key++)
+        {
+            // Iterate over all data points and compute the selection bit for each sample
+            int range = 100;
+            for (int d = 0; d < range; d++)
+            {
+                int cipher = dataPoints.get(d).cipherText[cipherByteIndex];
+                dataPoints.get(d).selectionBit = GetTargetBit((byte)GetTargetByte(cipher, key));
+            }   
+            
+            // Now calculate the sum and count of all selection bits with a zero or a one
+            float dpaOneSum = 0;
+            float dpaZeroSum = 0;
+            int dpaOneCount = 0;
+            int dpaZeroCount = 0;
+            for (int d = 0; d < range; d++)
+            {
+                if (dataPoints.get(d).selectionBit == 0)
+                {
+                    dpaZeroCount++;
+                    dpaZeroSum += dataPoints.get(d).power;
+                }
+                else
+                {
+                    dpaOneCount++;
+                    dpaOneSum += dataPoints.get(d).power;
+                }
+            } 
+            
+            // Calculate a DPA value for this key guess
+            float dpaValue = dpaOneSum / dpaOneCount - dpaZeroSum / dpaZeroCount;
+            dpaValues.add(dpaValue);
+            
+        }  // end key guesses
+                
         System.out.println("Complete...");
         
     }  // end PerformDPA
     
+    /**
+     * 
+     * @param cipher
+     * @param key
+     * @param position
+     * @return 
+     */
+    private int GetTargetByte(int cipher, int key)
+    {
+        int retval;
+        
+        // XOR
+        retval = (cipher ^ key);
+        
+        // Modify index to account for signed values
+        if (retval < 0)
+        {
+            
+        }
+        
+        // Reverse SBox
+        retval = inverseSBox[retval];
+        
+        return retval;
+    }
+    
+    /**
+     * 
+     * @param in
+     * @return 
+     */
+    private int GetTargetBit(int in)
+    {
+        // MSb
+        return (in >> 8);
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    private int GetCipherByteIndex()
+    {
+        return gui.GetKeyByteIndexToAttack();
+    }
     
     /**
      * Calculate the average power usage

@@ -8,16 +8,21 @@ public class DataPoint {
     /**
      * Plaintext input
      */
-    byte [] plainText = new byte [16];
+    int [] plainText = new int [16];
     
     /**
      * Ciphertext output
      */
-    byte [] cipherText = new byte [16];
+    int [] cipherText = new int [16];
     
     /**
      * Power usage at the 2664th data point
      */
     float power;
+    
+    /**
+     * 
+     */
+    int selectionBit;
     
 }  // end DataPoint

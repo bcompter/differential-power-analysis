@@ -107,6 +107,9 @@ public class Dpa implements Runnable {
      */
     private void PerformDPA()
     {
+        // Clear out previous values
+        dpaValues.clear();
+        
         // Calculate average power
         averagePower = Average();
         
@@ -186,12 +189,6 @@ public class Dpa implements Runnable {
         
         // XOR
         retval = (cipher ^ key);
-        
-        // Modify index to account for signed values
-        if (retval < 0)
-        {
-            
-        }
         
         // Reverse SBox
         retval = inverseSBox[retval];

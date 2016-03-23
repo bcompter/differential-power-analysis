@@ -197,7 +197,8 @@ public class Dpa implements Runnable {
     }
     
     /**
-     * 
+     * Get the target bit to attack
+     * In our case this will be the most significant bit
      * @param in
      * @return 
      */
@@ -208,7 +209,7 @@ public class Dpa implements Runnable {
     }
     
     /**
-     * 
+     * Get the Cipher Byte index we are attacking
      * @return 
      */
     private int GetCipherByteIndex()

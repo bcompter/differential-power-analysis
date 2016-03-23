@@ -144,7 +144,8 @@ public class Gui extends javax.swing.JFrame {
         dxydata.addSeries("", data.toArray());
         
         // Create JFreeChart
-        jfc = ChartFactory.createXYLineChart("DPA Results", "Key Guess", "DPA Value", dxydata);
+        int keyIndex = GetKeyByteIndexToAttack();
+        jfc = ChartFactory.createXYLineChart("DPA Results for K"+keyIndex, "Key Guess", "DPA Value", dxydata);
         
         // Create JChartPanel and load into the gui (jPanelResults)
         chartPanel = new ChartPanel(jfc);
